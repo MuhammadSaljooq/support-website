@@ -79,7 +79,7 @@ export default function AdminLayout({
     };
 
     checkAdmin();
-  }, [session, status, router]);
+  }, [session, status, router, pathname, isLoginPage]);
 
   // Show loading while checking session or admin status
   if (status === "loading" || checkingAdmin || !isAdmin) {

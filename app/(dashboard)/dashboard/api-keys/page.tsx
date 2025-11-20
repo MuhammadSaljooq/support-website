@@ -179,7 +179,14 @@ export default function APIKeysPage() {
       </div>
 
       {loading ? (
-        <APIKeysSkeleton />
+        <div className="space-y-4">
+          <div className="h-8 w-48 bg-slate-200 dark:bg-slate-700 animate-pulse rounded" />
+          <div className="grid gap-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-32 bg-slate-200 dark:bg-slate-700 animate-pulse rounded-lg" />
+            ))}
+          </div>
+        </div>
       ) : apiKeys.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
