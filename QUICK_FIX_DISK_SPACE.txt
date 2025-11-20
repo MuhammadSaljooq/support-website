@@ -1,0 +1,19 @@
+💾 QUICK FIX FOR DISK SPACE ERROR
+==================================
+
+Copy and paste this ENTIRE command in your EC2 terminal:
+
+sudo yum clean all && npm cache clean --force && sudo rm -rf /tmp/* /var/tmp/* && cd ~/support-website && rm -rf node_modules .next && npm install && npm run build
+
+This will:
+1. Clean yum cache
+2. Clean npm cache  
+3. Remove temp files
+4. Remove node_modules and .next
+5. Reinstall dependencies
+6. Build application
+
+If it still fails, check space:
+df -h
+
+If still low, you may need to increase the EBS volume size in AWS Console.

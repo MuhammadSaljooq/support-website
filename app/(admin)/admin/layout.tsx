@@ -19,12 +19,15 @@ export default function AdminLayout({
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkingAdmin, setCheckingAdmin] = useState(true);
 
-  // Don't apply admin layout to login page - render it directly
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
+  // Check if we're on the login page first
+  const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
+    // Skip admin check for login page
+    if (isLoginPage) {
+      setCheckingAdmin(false);
+      return;
+    }
     const checkAdmin = async () => {
       // If session is still loading, wait
       if (status === "loading") {

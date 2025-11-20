@@ -1,0 +1,37 @@
+🚀 DEPLOY YOUR WEBSITE - EASIEST METHOD
+========================================
+
+Since automated deployment isn't working, use AWS Console:
+
+STEP 1: Open AWS Console
+------------------------
+1. Go to: https://console.aws.amazon.com/ec2/
+2. Click "Instances" (left sidebar)
+3. Find instance: i-09fb878a140c50cbe
+4. Select it (check the box)
+
+STEP 2: Connect
+---------------
+1. Click "Connect" button (top right)
+2. Select "EC2 Instance Connect" tab
+3. Click "Connect"
+4. Browser terminal opens - you're connected!
+
+STEP 3: Deploy
+--------------
+Copy and paste this ONE command:
+
+sudo yum update -y && curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash - && sudo yum install -y nodejs git && sudo npm install -g pm2 && cd ~ && ([ -d support-website ] && (cd support-website && git pull) || git clone https://github.com/MuhammadSaljooq/support-website.git) && cd support-website && npm install && npm run build && pm2 stop support-website 2>/dev/null || true && pm2 delete support-website 2>/dev/null || true && pm2 start npm --name support-website -- start && pm2 save && pm2 status
+
+STEP 4: Configure
+----------------
+nano .env.local
+
+Add your database URL and secrets, then:
+pm2 restart support-website
+
+STEP 5: Access
+-------------
+http://100.25.216.241:3000
+
+That's it! Your website is deployed!
