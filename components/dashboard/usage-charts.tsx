@@ -66,7 +66,6 @@ export function UsageCharts({ data }: UsageChartsProps) {
                   borderRadius: '0.5rem',
                   boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                 }}
-                className="dark:bg-slate-800 dark:border-slate-700"
               />
               <Legend />
               <Line
@@ -112,7 +111,6 @@ export function UsageCharts({ data }: UsageChartsProps) {
                   borderRadius: '0.5rem',
                   boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                 }}
-                className="dark:bg-slate-800 dark:border-slate-700"
               />
               <Legend />
               <Bar 
@@ -162,7 +160,6 @@ export function UsageCharts({ data }: UsageChartsProps) {
                   borderRadius: '0.5rem',
                   boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                 }}
-                className="dark:bg-slate-800 dark:border-slate-700"
               />
               <Legend />
               <Area

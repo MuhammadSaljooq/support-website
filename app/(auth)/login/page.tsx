@@ -7,9 +7,17 @@ import Link from "next/link";
 import { Mail, Lock, Loader2, CheckCircle2, Home } from "lucide-react";
 import { showToast } from "@/lib/toast";
 
+// Force dynamic rendering to prevent static export errors
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  
+  // Prevent static optimization
+  if (typeof window === 'undefined') {
+    return null;
+  }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

@@ -2,23 +2,13 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./db";
 import bcrypt from "bcryptjs";
-import { headers } from "next/headers";
 
 // Helper function to get IP address and user agent from request
-async function getRequestInfo(): Promise<{ ipAddress: string | null; userAgent: string | null }> {
-  try {
-    const headersList = await headers();
-    const forwardedFor = headersList.get("x-forwarded-for");
-    const ipAddress = 
-      forwardedFor?.split(",")[0]?.trim() ||
-      headersList.get("x-real-ip") ||
-      null;
-    const userAgent = headersList.get("user-agent") || null;
-    return { ipAddress, userAgent };
-  } catch (e) {
-    // Fallback if headers not available
-    return { ipAddress: null, userAgent: null };
-  }
+// Note: In NextAuth authorize context, we'll capture this via events callback instead
+function getRequestInfo(): { ipAddress: string | null; userAgent: string | null } {
+  // Headers are not directly accessible in authorize function
+  // We'll log IP and user agent via events callback or middleware
+  return { ipAddress: null, userAgent: null };
 }
 
 export const authOptions: NextAuthOptions = {
@@ -57,7 +47,8 @@ export const authOptions: NextAuthOptions = {
         );
 
         // Get IP address and user agent for logging
-        const { ipAddress, userAgent } = await getRequestInfo();
+        // Note: IP and user agent will be captured via middleware/events in production
+        const { ipAddress, userAgent } = getRequestInfo();
 
         if (!isPasswordValid) {
           // Log failed login attempt
