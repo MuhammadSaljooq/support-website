@@ -2,6 +2,24 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./db";
 import bcrypt from "bcryptjs";
+import { headers } from "next/headers";
+
+// Helper function to get IP address and user agent from request
+async function getRequestInfo(): Promise<{ ipAddress: string | null; userAgent: string | null }> {
+  try {
+    const headersList = await headers();
+    const forwardedFor = headersList.get("x-forwarded-for");
+    const ipAddress = 
+      forwardedFor?.split(",")[0]?.trim() ||
+      headersList.get("x-real-ip") ||
+      null;
+    const userAgent = headersList.get("user-agent") || null;
+    return { ipAddress, userAgent };
+  } catch (e) {
+    // Fallback if headers not available
+    return { ipAddress: null, userAgent: null };
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,8 +56,45 @@ export const authOptions: NextAuthOptions = {
           user.password
         );
 
+        // Get IP address and user agent for logging
+        const { ipAddress, userAgent } = await getRequestInfo();
+
         if (!isPasswordValid) {
+          // Log failed login attempt
+          try {
+            await db.loginLog.create({
+              data: {
+                userId: user.id,
+                username: user.email,
+                loginTime: new Date(),
+                loginDate: new Date(),
+                loginStatus: "FAILED",
+                failureReason: "Invalid password",
+                ipAddress: ipAddress,
+                userAgent: userAgent,
+              },
+            });
+          } catch (error) {
+            console.error("Failed to log login attempt:", error);
+          }
           throw new Error("Invalid credentials");
+        }
+
+        // Log successful login
+        try {
+          await db.loginLog.create({
+            data: {
+              userId: user.id,
+              username: user.email,
+              loginTime: new Date(),
+              loginDate: new Date(),
+              loginStatus: "SUCCESS",
+              ipAddress: ipAddress,
+              userAgent: userAgent,
+            },
+          });
+        } catch (error) {
+          console.error("Failed to log login attempt:", error);
         }
 
         return {

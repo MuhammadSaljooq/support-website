@@ -56,7 +56,7 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-slate-900 dark:text-slate-100 leading-tight">
-                vocco talk
+                VoiceAgent
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
                 AI Call Assistant

@@ -15,7 +15,8 @@
     "verify:env": "tsx scripts/verify-env.ts",
     "test:vapi": "tsx scripts/test-vapi.ts",
     "test:vapi-agent": "tsx scripts/test-vapi-agent.ts",
-    "make-admin": "tsx scripts/make-admin.ts"
+    "make-admin": "tsx scripts/make-admin.ts",
+    "test:mysql": "tsx scripts/test-mysql.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

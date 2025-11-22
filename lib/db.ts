@@ -9,7 +9,7 @@ const databaseUrl = process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   const errorMsg = `DATABASE_URL is not set. Please ensure:
-1. .env.local file exists with DATABASE_URL="postgresql://shireenafzal@localhost:5432/support_website?schema=public"
+1. .env.local file exists with DATABASE_URL="mongodb://localhost:27017/your-database-name" or MongoDB Atlas connection string
 2. Restart your dev server after changing environment variables
 3. Check that the file is in the project root directory`;
   
@@ -19,8 +19,9 @@ if (!databaseUrl) {
 
 // Validate it's not the placeholder
 if (databaseUrl.includes("dbname") || databaseUrl.includes("user:password@localhost:5432/dbname")) {
-  const errorMsg = `DATABASE_URL appears to be a placeholder. Please update .env.local with your actual database URL:
-DATABASE_URL="postgresql://shireenafzal@localhost:5432/support_website?schema=public"
+  const errorMsg = `DATABASE_URL appears to be a placeholder. Please update .env.local with your actual MongoDB connection string:
+DATABASE_URL="mongodb://localhost:27017/your-database-name"
+Or for MongoDB Atlas: DATABASE_URL="mongodb+srv://username:password@cluster.mongodb.net/database-name"
 Then restart your dev server.`;
   
   console.error(errorMsg);
